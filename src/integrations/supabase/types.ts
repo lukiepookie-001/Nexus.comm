@@ -18,7 +18,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      post_category:
+        | "Photography"
+        | "Art"
+        | "Nature"
+        | "Technology"
+        | "Travel"
+        | "Food"
+        | "Fashion"
+        | "Sports"
+        | "Music"
+        | "Other"
     }
     CompositeTypes: {
       [_ in never]: never
