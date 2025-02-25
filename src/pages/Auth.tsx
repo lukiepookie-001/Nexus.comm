@@ -30,10 +30,13 @@ export default function Auth() {
           },
         });
         if (error) throw error;
-        toast({
-          title: "Success!",
-          description: "Please check your email to verify your account.",
+        // Sign in immediately after sign up
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
         });
+        if (signInError) throw signInError;
+        navigate("/");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
