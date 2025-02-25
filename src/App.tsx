@@ -8,7 +8,9 @@ import { AuthGuard } from "@/components/auth/AuthGuard";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Create from "./pages/Create";
-import NotFound from "./pages/NotFound";
+import Search from "./pages/Search";
+import Activity from "./pages/Activity";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -36,9 +38,30 @@ const App = () => (
               </AuthGuard>
             }
           />
-          <Route path="/search" element={<NotFound />} />
-          <Route path="/activity" element={<NotFound />} />
-          <Route path="/profile" element={<NotFound />} />
+          <Route
+            path="/search"
+            element={
+              <AuthGuard>
+                <Search />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/activity"
+            element={
+              <AuthGuard>
+                <Activity />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <AuthGuard>
+                <Profile />
+              </AuthGuard>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
