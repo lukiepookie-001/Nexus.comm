@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/layout/Navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { Image, Loader2 } from "lucide-react";
+import type { Database } from "@/integrations/supabase/types";
 
-const categories = [
+type PostCategory = Database['public']['Enums']['post_category'];
+
+const categories: PostCategory[] = [
   "Photography",
   "Art",
   "Nature",
@@ -23,7 +26,7 @@ const categories = [
 export default function Create() {
   const [isLoading, setIsLoading] = useState(false);
   const [caption, setCaption] = useState("");
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState<PostCategory>(categories[0]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -71,12 +74,12 @@ export default function Create() {
         .from("posts")
         .getPublicUrl(fileName);
 
-      // Create post
+      // Create post with correctly typed category
       const { error: postError } = await supabase.from("posts").insert({
-        user_id: user.id,
         caption,
         category,
         image_url: publicUrl,
+        user_id: user.id,
       });
 
       if (postError) throw postError;
@@ -137,7 +140,7 @@ export default function Create() {
             </label>
             <select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => setCategory(e.target.value as PostCategory)}
               className="w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {categories.map((cat) => (
